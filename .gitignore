@@ -1,0 +1,10 @@
+# 编译产物
+*.exe
+*.obj
+*.ilk
+*.pdb
+*.o
+*.out
+
+# VS Code 配置
+.vscode/

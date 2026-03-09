@@ -3,6 +3,6 @@ int main()
 {
     int a = 10;
     int b = 20;
-    printf("hello world\n");
+    printf("%5d\n", a);
     return 0;
 }
