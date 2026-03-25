@@ -1,15 +1,16 @@
-#include "menu_type.h" // 引入点餐系统类型头文件，包含结构体、宏定义和函数声明
+#include "menu_type.h"
 
-// 主函数：点餐系统程序入口，实现客户点餐、商家管理两大核心功能，支持多级菜单交互
+// 主函数：点餐系统程序入口，实现客户点餐、商家管理两大核心功能
 int main(int argc, char const *argv[])
 {
     Dish menu[MAX_DISHES] = {0};        // 菜品数组，存储系统所有菜品信息
     OrderItem orders[MAX_ORDERS] = {0}; // 订单数组，存储用户已点菜品的订单项
-    int order_count = 0;                // 有效订单项数量，初始化为0
-    int dish_count = 3;                 // 系统初始菜品数量，默认初始化3道菜品
-    int choice;                         // 选择项
+    int order_count = 0;                // 有效订单项数量
+    int dish_count = 3;                 // 系统初始菜品数量
+    int choice;                         // 用户菜单选择
+    float total_sale = 0.0;            // 今日销售额，用于统计所有订单项的单价*数量和
 
-    // 初始化3道默认菜品的ID、名称、单价
+    // 初始化3道默认菜品
     menu[0].id = 1;
     strcpy(menu[0].name, "鱼香肉丝");
     menu[0].price = 20.0;
@@ -23,42 +24,46 @@ int main(int argc, char const *argv[])
     // 系统主循环：持续运行，直到用户选择退出
     while (1)
     {
-        // 打印系统主菜单
+        // 显示主菜单
         printf("========点餐系统========\n");
         printf("1.客户点餐\n");
         printf("2.商家\n");
         printf("0.退出系统\n");
         printf("请输入您的选择：");
+        
+        // 输入验证
         if (scanf("%d", &choice) != 1)
         {
             printf("\n输入错误，请重新输入\n");
-            while (getchar() != '\n')
+            while (getchar() != '\n')  // 清除输入缓冲区
                 ;
             continue;
         }
 
-        // 主菜单选择逻辑分支
+        // 主菜单选择处理
         switch (choice)
         {
         case 1:
-            customer_menu(menu, &dish_count, orders, &order_count);
+            // 进入客户点餐菜单
+            customer_menu(menu, &dish_count, orders, &order_count,&total_sale);
             break;
 
-        // 商家管理功能分支
         case 2:
-            merchant_menu(menu, &dish_count, orders, &order_count);
+            // 进入商家管理菜单
+            merchant_menu(menu, &dish_count, orders, &order_count, &total_sale);
             break;
 
-        // 退出系统
         case 0:
+            // 退出系统
             printf("谢谢使用！\n");
-            return 0; // 程序正常退出，返回0
+            return 0;
 
-        // 主菜单输入非有效选项
         default:
+            // 输入无效选项
             printf("输入错误，请重新输入\n");
             break;
         }
     }
+    
     return 0;
 }
